@@ -1,0 +1,32 @@
+---
+# tasks file for ec2-provision
+  - name: launch Master Node AWS cloud
+    ec2:
+          key_name: "aws-k8s"
+          instance_type: "t2.micro"
+          image: ami-0747bdcabd34c712a
+          wait: yes
+          count: 1
+          vpc_subnet_id: "subnet-0620ba8efbfb2c6fd"
+          group_id: "sg-0dcffd33c89810728"
+          assign_public_ip: yes
+          region: "us-east-1"
+          state: present
+          aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
+          aws_secret_key: "{{ lookup('env', 'AWS_SECRET_KEY') }}"
+          instance_tags: {"Name": "Master", "Cluster": "k8s Cluster"}
+  - name: launch Worker Node on AWS cloud
+    ec2:
+          key_name: "aws-k8s"
+          instance_type: "t2.micro"
+          image: ami-0747bdcabd34c712a
+          wait: yes
+          count: 2
+          vpc_subnet_id: "subnet-0620ba8efbfb2c6fd"
+          group_id: sg-0dcffd33c89810728
+          assign_public_ip: yes
+          region: "us-east-1"
+          state: present
+          aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
+          aws_secret_key: "{{ lookup('env', 'AWS_SECRET_KEY') }}"
+          instance_tags: {"Name": "Worker", "Cluster": "k8s Cluster"}

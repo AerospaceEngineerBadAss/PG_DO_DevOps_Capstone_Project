@@ -5,4 +5,4 @@ sudo systemctl enable kubelet
 sudo systemctl start kubelet
 sudo systemctl status kubelet
 
-sudo kubeadm init
+sudo kubeadm init --ignore-preflight-errors=all
